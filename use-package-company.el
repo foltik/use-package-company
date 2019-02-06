@@ -7,7 +7,7 @@
 ;; URL: http://github.com/foltik/use-package-company/
 ;; Created: 6 Feb 2019
 ;; Version: 1.0
-;; Package-Requires: ((emacs "24.3") (use-package "2.4"))
+;; Package-Requires: ((emacs "24.3") (use-package "2.4") (company "0.9.9"))
 ;; Keywords: convenience extensions use-package
 
 ;;; License:
@@ -23,7 +23,10 @@
 
 (require 'use-package-core)
 
-(defcustom use-package-company-with-yas nil "Whether to add :with company-yasnippet to backends")
+(defcustom use-package-company-with-yas nil
+  "Whether to add :with company-yasnippet to backends"
+  :type 'boolean
+  :group 'use-package)
 
 ;;;###autoload
 (defun use-package-normalize/:company (name keyword args)
@@ -47,7 +50,7 @@
         name label arg))))
 
 ;;;###autoload
-(defun use-package-handler/:company (name keyword args rest state)
+(defun use-package-handler/:company (name _keyword args rest state)
   "Generate a function to add each backend and add hooks to the specified modes."
   (use-package-concat
     (use-package-process-keywords name rest state)
