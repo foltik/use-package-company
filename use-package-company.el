@@ -23,7 +23,7 @@
 
 (require 'use-package-core)
 
-(defcustom use-package-company-with-yas nil "Whether to add :with-yasnippet to backends")
+(defcustom use-package-company-with-yas nil "Whether to add :with company-yasnippet to backends")
 
 ;;;###autoload
 (defun use-package-normalize/:company (name keyword args)
