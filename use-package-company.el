@@ -27,7 +27,7 @@
   "Support for :company keyword in use-package declarations."
   :group 'use-package)
 
-(defcustom use-package-company-with-yas nil
+(defcustom use-package-company-append-yasnippet nil
   "Append '(:with company-yasnippet) to all backends."
   :type 'boolean
   :group 'use-package-company)
@@ -67,7 +67,7 @@
             (append
               `((defun ,fun ()
                 (let ((backend ',
-                        (if use-package-company-with-yas
+                        (if use-package-company-append-yasnippet
                             (append (list backend) '(:with company-yasnippet))
                             backend)))
                   (unless (member backend company-backends)
