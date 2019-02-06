@@ -33,8 +33,8 @@
   :group 'use-package-company)
 
 ;;;###autoload
-(defun use-package-normalize/:company (name keyword args)
-  "Normalize :company definition to a list of pairs."
+(defun use-package-company-normalize (name keyword args)
+  "Normalize the KEYWORD with NAME :company with arguments ARGS into a list of pairs for the handler."
   (use-package-as-one (symbol-name keyword) args
     (lambda (label arg)
       (unless (or (consp arg) (use-package-non-nil-symbolp arg))
@@ -54,8 +54,8 @@
         name label arg))))
 
 ;;;###autoload
-(defun use-package-handler/:company (name _keyword args rest state)
-  "Generate a function to add each backend and add hooks to the specified modes."
+(defun use-package-company-handler (name _keyword args rest state)
+  "Generate a function and hook from each pair in NAME ARGS for the keyword with NAME :company, appending the forms to the ‘use-package’ declaration specified by REST and STATE."
   (use-package-concat
     (use-package-process-keywords name rest state)
     (mapcan
@@ -80,6 +80,8 @@
                 (if (use-package-non-nil-symbolp modes) (list modes) modes))))))
         (use-package-normalize-commands args))))
 
+(defalias 'use-package-normalize/:company 'use-package-company-normalize)
+(defalias 'use-package-handler/:company 'use-package-company-handler)
 (defalias 'use-package-autoloads/:company 'use-package-autoloads-mode)
 
 (setq use-package-keywords
