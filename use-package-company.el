@@ -23,10 +23,14 @@
 
 (require 'use-package-core)
 
-(defcustom use-package-company-with-yas nil
-  "Whether to add :with company-yasnippet to backends"
-  :type 'boolean
+(defgroup use-package-company nil
+  "Support for :company keyword in use-package declarations."
   :group 'use-package)
+
+(defcustom use-package-company-with-yas nil
+  "Append '(:with company-yasnippet) to all backends."
+  :type 'boolean
+  :group 'use-package-company)
 
 ;;;###autoload
 (defun use-package-normalize/:company (name keyword args)
