@@ -22,6 +22,7 @@
 ;;; Code:
 
 (require 'use-package-core)
+(require 'derived)
 
 ;;;###autoload
 (defun use-package-company-normalize (name keyword args)
