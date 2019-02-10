@@ -23,15 +23,6 @@
 
 (require 'use-package-core)
 
-(defgroup use-package-company nil
-  "Support for :company keyword in use-package declarations."
-  :group 'use-package)
-
-(defcustom use-package-company-append-yasnippet nil
-  "Append '(:with company-yasnippet) to all backends."
-  :type 'boolean
-  :group 'use-package-company)
-
 ;;;###autoload
 (defun use-package-company-normalize (name keyword args)
   "Normalize the KEYWORD with NAME :company with arguments ARGS into a list of pairs for the handler."
@@ -66,11 +57,8 @@
         (when backend
           (append
            `((defun ,fun ()
-               (let ((backend ',
-                      (if use-package-company-append-yasnippet
-                          (append (list backend) '(:with company-yasnippet))
-                        backend)))
-                 (add-to-list 'company-backends backend))))
+	       (setq-local 'company-backends
+			   (append 'company-backends '(,backend)))))
            (mapcar
             (lambda (mode)
               `(add-hook
