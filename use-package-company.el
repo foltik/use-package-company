@@ -70,12 +70,11 @@
                         (if use-package-company-append-yasnippet
                             (append (list backend) '(:with company-yasnippet))
                             backend)))
-                  (unless (member backend company-backends)
-                    (add-to-list 'company-backends backend)))))
+                    (add-to-list 'company-backends backend))))
               (mapcar
                 (lambda (mode)
                   `(add-hook
-                    ',(intern (concat (symbol-name mode) use-package-hook-name-suffix))
+                    ',(derived-mode-hook-name mode)
                     #',fun))
                 (if (use-package-non-nil-symbolp modes) (list modes) modes))))))
         (use-package-normalize-commands args))))
