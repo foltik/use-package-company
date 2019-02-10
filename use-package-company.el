@@ -39,56 +39,56 @@
     (lambda (label arg)
       (unless (or (consp arg) (use-package-non-nil-symbolp arg))
         (use-package-error
-          (concat
-            label
-            "<symbol> or "
-            "(<symbol or list of symbols> . <symbol or function>) or "
-            "a list of these")))
+         (concat
+          label
+          "<symbol> or "
+          "(<symbol or list of symbols> . <symbol or function>) or "
+          "a list of these")))
       (use-package-normalize-pairs
-        (lambda (k)
-          (or (use-package-non-nil-symbolp k)
-              (and (consp k)
-                   (not (cdr (last k)))
-                   (seq-every-p 'use-package-non-nil-symbolp k))))
-        #'use-package-recognize-function
-        name label arg))))
+       (lambda (k)
+         (or (use-package-non-nil-symbolp k)
+            (and (consp k)
+               (not (cdr (last k)))
+               (seq-every-p 'use-package-non-nil-symbolp k))))
+       #'use-package-recognize-function
+       name label arg))))
 
 ;;;###autoload
 (defun use-package-company-handler (name _keyword args rest state)
   "Generate a function and hook from each pair in NAME ARGS for the keyword with NAME :company, appending the forms to the ‘use-package’ declaration specified by REST and STATE."
   (use-package-concat
-    (use-package-process-keywords name rest state)
-    (mapcan
-      (lambda (def)
-        (let ((modes (car def))
-              (backend (cdr def))
-              (fun (intern (concat "use-package-company-add-" (symbol-name (cdr def))))))
-          (when backend
-            (append
-              `((defun ,fun ()
-                (let ((backend ',
-                        (if use-package-company-append-yasnippet
-                            (append (list backend) '(:with company-yasnippet))
-                            backend)))
-                    (add-to-list 'company-backends backend))))
-              (mapcar
-                (lambda (mode)
-                  `(add-hook
-                    ',(derived-mode-hook-name mode)
-                    #',fun))
-                (if (use-package-non-nil-symbolp modes) (list modes) modes))))))
-        (use-package-normalize-commands args))))
+   (use-package-process-keywords name rest state)
+   (mapcan
+    (lambda (def)
+      (let ((modes (car def))
+            (backend (cdr def))
+            (fun (intern (concat "use-package-company-add-" (symbol-name (cdr def))))))
+        (when backend
+          (append
+           `((defun ,fun ()
+               (let ((backend ',
+                      (if use-package-company-append-yasnippet
+                          (append (list backend) '(:with company-yasnippet))
+                        backend)))
+                 (add-to-list 'company-backends backend))))
+           (mapcar
+            (lambda (mode)
+              `(add-hook
+                ',(derived-mode-hook-name mode)
+                #',fun))
+            (if (use-package-non-nil-symbolp modes) (list modes) modes))))))
+    (use-package-normalize-commands args))))
 
 (defalias 'use-package-normalize/:company 'use-package-company-normalize)
 (defalias 'use-package-handler/:company 'use-package-company-handler)
 (defalias 'use-package-autoloads/:company 'use-package-autoloads-mode)
 
 (setq use-package-keywords
-  (let ((idx (+ 1 (cl-position :hook use-package-keywords))))
-    (append
-      (seq-subseq use-package-keywords 0 idx)
-      (list :company)
-      (nthcdr idx use-package-keywords))))
+      (let ((idx (+ 1 (cl-position :hook use-package-keywords))))
+	(append
+	 (seq-subseq use-package-keywords 0 idx)
+	 (list :company)
+	 (nthcdr idx use-package-keywords))))
 
 (provide 'use-package-company)
 ;;; use-package-company.el ends here
