@@ -23,6 +23,7 @@
 
 (require 'use-package-core)
 (require 'derived)
+(require 'seq)
 
 ;;;###autoload
 (defun use-package-company-normalize (name keyword args)
