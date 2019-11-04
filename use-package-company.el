@@ -7,7 +7,7 @@
 ;; URL: http://github.com/foltik/use-package-company/
 ;; Created: 6 Feb 2019
 ;; Version: 1.0
-;; Package-Requires: ((emacs "24.3") (use-package "2.4") (company "0.9.9"))
+;; Package-Requires: ((emacs "24.3") (use-package "2.4") (company "0.9.9") (seq "2.20"))
 ;; Keywords: convenience extensions use-package
 
 ;;; License:
@@ -23,6 +23,7 @@
 
 (require 'use-package-core)
 (require 'derived)
+(require 'seq)
 
 ;;;###autoload
 (defun use-package-company-normalize (name keyword args)
